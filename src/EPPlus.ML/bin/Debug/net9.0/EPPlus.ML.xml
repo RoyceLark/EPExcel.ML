@@ -1,0 +1,390 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EPPlus.ML</name>
+    </assembly>
+    <members>
+        <member name="T:EPPlus.ML.ServiceCollectionExtensions">
+            <summary>Dependency injection registration — EPPlus parity: AddExcelAI()</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelExternalLink">
+            <summary>External workbook links — EPPlus 8.x parity.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelExternalLink.#ctor(System.String,System.String)">
+            <summary>External workbook links — EPPlus 8.x parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelMLEngine">
+            <summary>
+            Microsoft.ML integration — AI/ML features beyond EPPlus.
+            Provides forecasting, anomaly detection, clustering, regression,
+            and classification directly on worksheet data ranges.
+            </summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelMLEngine.Forecast(EPPlus.ML.ExcelRange,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Forecast future values using SSA (Singular Spectrum Analysis).
+            EPPlus has nothing equivalent — this is an ExcelAI exclusive.
+            </summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelMLEngine.ForecastToRange(EPPlus.ML.ExcelRange,System.String,System.Int32)">
+            <summary>Write forecast results back to worksheet starting at outputCell.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelMLEngine.DetectAnomalies(EPPlus.ML.ExcelRange,System.Double,System.Int32)">
+            <summary>Detect anomalies using IID spike detection.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelMLEngine.TrainLinearRegression(EPPlus.ML.ExcelRange,EPPlus.ML.ExcelRange)">
+            <summary>Train a linear regression model on worksheet columns.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelMLEngine.Cluster(EPPlus.ML.ExcelRange,System.Int32)">
+            <summary>Cluster rows using K-Means. Returns cluster label per row.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelMLEngine.AutoMLRegressionAsync(EPPlus.ML.ExcelRange,EPPlus.ML.ExcelRange,System.Int32,System.Threading.CancellationToken)">
+            <summary>AutoML regression — automatically finds the best model.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelMLExtensions">
+            <summary>Extension methods for ML on workbook ranges.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelRange">
+            <summary>
+            Range of cells — EPPlus ExcelRange parity.
+            All fluent operations, LoadFromCollection, ToCollection, sort, copy, etc.
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.Formulas.FormulaEngine">
+            <summary>
+            Recursive-descent formula evaluator — EPPlus 8 parity.
+            Handles arithmetic, comparisons, string concat, function calls,
+            cell/range references (A1, Sheet1!A1:B2), named ranges, array constants.
+            All 463 EPPlus functions via FunctionLibrary.
+            </summary>
+        </member>
+        <member name="M:EPPlus.ML.Formulas.FormulaEngine.CellRefRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>(?&lt;ca&gt;\\$?)(?&lt;col&gt;[A-Z]{1,3})(?&lt;ra&gt;\\$?)(?&lt;row&gt;\\d{1,7})</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ "ca" capture group.<br/>
+                ○ Match '$' atomically, optionally.<br/>
+            ○ "col" capture group.<br/>
+                ○ Match a character in the set [A-Z] atomically at least 1 and at most 3 times.<br/>
+            ○ "ra" capture group.<br/>
+                ○ Match '$' atomically, optionally.<br/>
+            ○ "row" capture group.<br/>
+                ○ Match a Unicode digit atomically at least 1 and at most 7 times.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:EPPlus.ML.Formulas.FormulaDependencyEngine.RefPattern">
+            <remarks>
+            Pattern:<br/>
+            <code>(?:'(?&lt;sheet&gt;[^']+)'!|(?&lt;sheet&gt;[A-Za-z0-9_]+)!)?(?&lt;cell&gt;\\$?[A-Z]{1,3}\\$?\\d{1,7}(?::\\$?[A-Z]{1,3}\\$?\\d{1,7})?)</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Optional (greedy).<br/>
+                ○ Match with 2 alternative expressions.<br/>
+                    ○ Match a sequence of expressions.<br/>
+                        ○ Match an empty string.<br/>
+                        ○ "sheet" capture group.<br/>
+                            ○ Match a character other than '\'' atomically at least once.<br/>
+                        ○ Match the string "'!".<br/>
+                    ○ Match a sequence of expressions.<br/>
+                        ○ "sheet" capture group.<br/>
+                            ○ Match a character in the set [0-9A-Z_a-z] atomically at least once.<br/>
+                        ○ Match '!'.<br/>
+            ○ "cell" capture group.<br/>
+                ○ Match '$' atomically, optionally.<br/>
+                ○ Match a character in the set [A-Z] atomically at least 1 and at most 3 times.<br/>
+                ○ Match '$' atomically, optionally.<br/>
+                ○ Match a Unicode digit greedily at least 1 and at most 7 times.<br/>
+                ○ Optional (greedy).<br/>
+                    ○ Match ':'.<br/>
+                    ○ Match '$' atomically, optionally.<br/>
+                    ○ Match a character in the set [A-Z] atomically at least 1 and at most 3 times.<br/>
+                    ○ Match '$' atomically, optionally.<br/>
+                    ○ Match a Unicode digit atomically at least 1 and at most 7 times.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:EPPlus.ML.Formulas.FunctionLibrary">
+            <summary>
+            Complete Excel 365 function library — 463 functions, EPPlus 8.5 parity.
+            SUMIF/SUMIFS/COUNTIFS use live FormulaEngine.RangeRef for correct cell resolution.
+            Statistical distributions use accurate algorithms (Lanczos, BSM, regularized beta/gamma).
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.Exporter">
+            <summary>Export worksheet data to HTML, CSV, and JSON formats.</summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.ExcelConnectionCollection">
+            <summary>External connection collection — EPPlus 8.3 parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.XlsbReader">
+            <summary>
+            XLSB (Excel Binary Workbook) reader — EPPlus parity.
+            Full XLSB implementation requires parsing BRT (Binary Record Type) records.
+            This implementation reads cell values from XLSB streams by locating
+            worksheet streams and parsing BRT_ROW + BRT_CELL records.
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.StreamingXlsxWriter">
+            <summary>
+            Streaming XLSX writer for large datasets (100k+ rows).
+            Uses ZipArchive streaming mode to avoid buffering entire file in memory.
+            EPPlus parity: ExcelPackage with streaming mode.
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.StreamingWorksheet">
+            <summary>Represents a single worksheet being streamed.</summary>
+        </member>
+        <member name="M:EPPlus.ML.IO.StreamingWorksheet.#ctor(System.IO.Stream,EPPlus.ML.IO.StreamingXlsxWriter)">
+            <summary>Represents a single worksheet being streamed.</summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.PivotCalculationEngine">
+            <summary>
+            Live pivot table calculation engine — EPPlus 7.2+ parity.
+            Calculates pivot tables from source data, enabling GETPIVOTDATA formula resolution.
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.WorkbookEncryption">
+            <summary>
+            ECMA-376 AgileEncryption — spec-compliant.
+            AES-256-CBC + PBKDF2-SHA512 (100,000 spin count).
+            Spec-compliant CFBF v3 OLE container.
+            Reads files encrypted by Excel, EPPlus, LibreOffice.
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.EncryptedXlsxReader">
+            <summary>Convenience wrapper — EPPlus: new ExcelPackage(file, password)</summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.EncryptedXlsxWriter">
+            <summary>Convenience wrapper — EPPlus: package.SaveAs(file, password)</summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.XlsxReader">
+            <summary>
+            OOXML (.xlsx) reader — EPPlus 8.5 parity.
+            Reads all worksheet content, styles, shared strings, named ranges,
+            tables, pivot tables, and unknown parts for round-trip fidelity.
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.IO.XlsxWriter">
+            <summary>OOXML (.xlsx) writer — EPPlus 8.5 parity.</summary>
+        </member>
+        <member name="M:EPPlus.ML.IO.XlsxWriter.#ctor(EPPlus.ML.ExcelWorkbook)">
+            <summary>OOXML (.xlsx) writer — EPPlus 8.5 parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelColor">
+            <summary>
+            Full color manager — EPPlus 8 parity.
+            Supports hex, RGB, ARGB, HSL, theme, preset (148 CSS colors), system colors.
+            </summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelNamedStyleCollection">
+            <summary>Named cell styles — EPPlus parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelPageBreaks">
+            <summary>Page breaks — EPPlus parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelOutlineCollection">
+            <summary>Row and column outline grouping — EPPlus parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ChartStyleManager">
+            <summary>Chart styles 1–48 + color variants — EPPlus parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelOleObject">
+            <summary>OLE embedded objects — EPPlus parity.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelOleObject.#ctor(System.String,System.Byte[])">
+            <summary>OLE embedded objects — EPPlus parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelFormControl">
+            <summary>Form controls — EPPlus parity.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelFormControl.#ctor(EPPlus.ML.ExcelFormControlType)">
+            <summary>Form controls — EPPlus parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelDigitalSignature">
+            <summary>Excel digital signatures — EPPlus parity.</summary>
+        </member>
+        <member name="T:EPPlus.ML.ExcelDigitalSignatureCollection">
+            <summary>Digital signature collection on workbook.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelAddressParser.CellRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>^([A-Z]{1,3})(\\d{1,7})$</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match if at the beginning of the string.<br/>
+            ○ 1st capture group.<br/>
+                ○ Match a character in the set [A-Z] atomically at least 1 and at most 3 times.<br/>
+            ○ 2nd capture group.<br/>
+                ○ Match a Unicode digit atomically at least 1 and at most 7 times.<br/>
+            ○ Match if at the end of the string or if before an ending newline.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:EPPlus.ML.ExcelRangeStyle">
+            <summary>
+            EPPlus-compatible fluent style API.
+            Usage: ws.Cells("A1:C3").StyleFluent.Font.Bold = true;
+                   ws.Cells("A1").StyleFluent.Fill.SetBackground("FF0000");
+            Also supports EPPlus-style: ws.Cell(1,1).StyleIndex = wb.Styles.RegisterStyle(myStyle);
+            </summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelRangeFontStyle.SetColor(EPPlus.ML.ExcelColor)">
+            <summary>Set color from ExcelColor instance.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelRangeFillStyle.SetBackground(System.String)">
+            <summary>Set solid background color from hex string. EPPlus: Fill.BackgroundColor.SetColor()</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelRangeFillStyle.SetBackground(EPPlus.ML.ExcelColor)">
+            <summary>Set solid background color from ExcelColor.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelRangeFillStyle.SetGradient(System.Double,System.ValueTuple{System.Double,System.String}[])">
+            <summary>Set gradient fill.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelRangeFillStyle.Clear">
+            <summary>Clear fill to none.</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelRangeBorderStyle.BorderAround(EPPlus.ML.BorderLineStyle,System.String)">
+            <summary>EPPlus parity: Border.BorderAround(ExcelBorderStyle.Thin)</summary>
+        </member>
+        <member name="M:EPPlus.ML.ExcelRangeBorderStyle.SetAll(EPPlus.ML.BorderLineStyle,System.String)">
+            <summary>Set all four sides at once.</summary>
+        </member>
+        <member name="M:EPPlus.ML.WorksheetStyleExtensions.StyleOf(EPPlus.ML.ExcelWorksheet,System.Int32,System.Int32)">
+            <summary>Get fluent style for a single cell — EPPlus parity: ws.Cells["A1"].Style.Font.Bold = true</summary>
+        </member>
+        <member name="M:EPPlus.ML.WorksheetStyleExtensions.StyleOf(EPPlus.ML.ExcelWorksheet,System.String)">
+            <summary>Get fluent style for a range — EPPlus parity: ws.Cells["A1:C3"].Style.Fill.BackgroundColor.SetColor(...)</summary>
+        </member>
+        <member name="M:EPPlus.ML.WorksheetStyleExtensions.ApplyNamedStyle(EPPlus.ML.ExcelWorksheet,EPPlus.ML.ExcelRange,System.String)">
+            <summary>Apply a predefined named style to cells.</summary>
+        </member>
+        <member name="M:EPPlus.ML.WorkbookNamedStyleExtensions.CreateNamedStyle(EPPlus.ML.ExcelWorkbook,System.String)">
+            <summary>Create a named style. EPPlus parity: wb.Styles.CreateNamedStyle("Heading1")</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CellRefRegex_0">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the CellRefRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.CellRefRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRefRegex_0.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CellRefRegex_0.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRefRegex_0.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CellRefRegex_0.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRefRegex_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRefRegex_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRefRegex_0.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.RefPattern_1">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the RefPattern method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.RefPattern_1.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.RefPattern_1.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.RefPattern_1.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.RefPattern_1.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.RefPattern_1.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.RefPattern_1.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.RefPattern_1.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.RefPattern_1.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CellRegex_2">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the CellRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.CellRegex_2.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRegex_2.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CellRegex_2.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRegex_2.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.CellRegex_2.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRegex_2.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRegex_2.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.CellRegex_2.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
+            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
+            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
+            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.Utilities.StackPush(System.Int32[]@,System.Int32@,System.Int32,System.Int32)">
+            <summary>Pushes 2 values onto the backtracking stack.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiWordChars">
+            <summary>Supports searching for characters in or not in "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_10000000FEFFFF0700000000">
+            <summary>Supports searching for characters in or not in "$ABCDEFGHIJKLMNOPQRSTUVWXYZ".</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_ascii_9000FF03FEFFFF87FEFFFF07">
+            <summary>Supports searching for characters in or not in "$'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz".</summary>
+        </member>
+    </members>
+</doc>

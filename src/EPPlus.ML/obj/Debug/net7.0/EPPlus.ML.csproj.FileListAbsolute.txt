@@ -1,0 +1,14 @@
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPPlus.ML.csproj.AssemblyReference.cache
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPPlus.ML.GeneratedMSBuildEditorConfig.editorconfig
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPPlus.ML.AssemblyInfoInputs.cache
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPPlus.ML.AssemblyInfo.cs
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPPlus.ML.csproj.CoreCompileInputs.cache
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net7.0\EPExcel.ML.deps.json
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net7.0\EPExcel.ML.dll
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net7.0\EPExcel.ML.pdb
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net7.0\EPExcel.ML.xml
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPExcel.ML.dll
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\refint\EPExcel.ML.dll
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPExcel.ML.xml
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\EPExcel.ML.pdb
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net7.0\ref\EPExcel.ML.dll

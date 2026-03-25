@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Multi-target: .NET 7, 8, 9, 10 — requires .NET 8+ SDK to build -->
+    <!-- <TargetFrameworks>net7.0;net8.0</TargetFrameworks> -->
+    <TargetFrameworks>net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <LangVersion>12</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+
+    <!-- Package identity -->
+    <AssemblyName>EPExcel.ML</AssemblyName>
+    <RootNamespace>EPExcel.ML</RootNamespace>
+    <PackageId>EPExcel.ML</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Royce Corporations</Authors>
+    <Company>Royce Corporations</Company>
+    <Product>EPExcel.ML</Product>
+    <Copyright>Copyright © 2025 Royce Corporation</Copyright>
+    <PlatformTarget>x64</PlatformTarget>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <Description>EPExcel.ML — MIT-licensed Excel library for .NET with Microsoft.ML integration. Full EPExcel.ML 8.5 feature parity plus AI/ML forecasting, anomaly detection, clustering and AutoML. Supports .NET 7, 8.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>excel xlsx epplus spreadsheet ml machinelearning dotnet</PackageTags>
+    <PackageProjectUrl>https://github.com/RoyceLark/EPPlus.ML</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+
+    <!-- Documentation -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;NU1510</NoWarn>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <!-- Packages that work across all 4 TFMs -->
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="" />
+    <None Include="LICENSE" Pack="true" PackagePath="" />
+    <None Include="README.md" Pack="true" PackagePath="" />
+    <PackageReference Include="SkiaSharp" Version="2.88.8" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.2" />
+    <PackageReference Include="Microsoft.ML" Version="5.0.0" />
+    <PackageReference Include="Microsoft.ML.TimeSeries" Version="3.0.1" />
+    <PackageReference Include="Microsoft.ML.AutoML" Version="0.21.1" />
+  </ItemGroup>
+
+  <!-- .NET 7 needs Random.Shared.NextInt64 polyfill — not needed, it was added in .NET 6 -->
+  <!-- .NET 7 needs System.Runtime.CompilerServices.Unsafe for some operations -->
+
+  <!-- TFM-specific: .NET 9+ gets additional perf APIs -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0' OR '$(TargetFramework)' == 'net10.0'">
+    <!-- Future: add net9/10 specific packages here if needed -->
+  </ItemGroup>
+
+</Project>

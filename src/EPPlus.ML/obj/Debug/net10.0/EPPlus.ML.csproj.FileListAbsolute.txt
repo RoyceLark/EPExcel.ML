@@ -1,0 +1,14 @@
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net10.0\EPPlus.ML.deps.json
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net10.0\EPPlus.ML.dll
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net10.0\EPPlus.ML.pdb
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\bin\Debug\net10.0\EPPlus.ML.xml
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.csproj.AssemblyReference.cache
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.GeneratedMSBuildEditorConfig.editorconfig
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.AssemblyInfoInputs.cache
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.AssemblyInfo.cs
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.csproj.CoreCompileInputs.cache
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.dll
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\refint\EPPlus.ML.dll
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.xml
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\EPPlus.ML.pdb
+C:\appdev\EPPlus.ML\EPPlusML\src\EPPlus.ML\obj\Debug\net10.0\ref\EPPlus.ML.dll
